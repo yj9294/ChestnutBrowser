@@ -1,0 +1,58 @@
+PODS:
+  - app_tracking_transparency (0.0.1):
+    - Flutter
+  - FBSDKCoreKit (9.1.0):
+    - FBSDKCoreKit/Basics (= 9.1.0)
+    - FBSDKCoreKit/Core (= 9.1.0)
+  - FBSDKCoreKit/Basics (9.1.0)
+  - FBSDKCoreKit/Core (9.1.0):
+    - FBSDKCoreKit/Basics
+  - Flutter (1.0.0)
+  - flutter_facebook_sdk (0.0.1):
+    - FBSDKCoreKit (~> 9.1.0)
+    - Flutter
+  - launch_review (0.0.1):
+    - Flutter
+  - share (0.0.1):
+    - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_facebook_sdk (from `.symlinks/plugins/flutter_facebook_sdk/ios`)
+  - launch_review (from `.symlinks/plugins/launch_review/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
+
+SPEC REPOS:
+  trunk:
+    - FBSDKCoreKit
+
+EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
+  Flutter:
+    :path: Flutter
+  flutter_facebook_sdk:
+    :path: ".symlinks/plugins/flutter_facebook_sdk/ios"
+  launch_review:
+    :path: ".symlinks/plugins/launch_review/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
+
+SPEC CHECKSUMS:
+  app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
+  FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_facebook_sdk: 82c8d10c6226b66de5459d6115ab02d1ecd66cd9
+  launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
+
+PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+
+COCOAPODS: 1.11.3
