@@ -5,6 +5,7 @@ import 'package:chestnut_browser/event/event_bus_util.dart';
 import 'package:chestnut_browser/page/base_page_state.dart';
 import 'package:chestnut_browser/page/home_page.dart';
 import 'package:chestnut_browser/page/launch_page.dart';
+import 'package:chestnut_browser/provider/gad_provider.dart';
 import 'package:chestnut_browser/provider/home_provider.dart';
 import 'package:chestnut_browser/provider/launch_provider.dart';
 import 'package:chestnut_browser/provider/provider_util.dart';
@@ -18,6 +19,7 @@ void main() {
   final app = MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LaunchProvider()),
     ChangeNotifierProvider(create: (context) => HomeProvider()),
+    ChangeNotifierProvider(create: (context) => GADProvider()),
   ], child: const MyApp());
   runApp(app);
 }
@@ -36,6 +38,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
+    // local config
+    GADProvider().requestConfig();
 
     // att alert
     AppTrackingTransparency.requestTrackingAuthorization();
@@ -63,11 +68,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         debugPrint("active");
-        ProviderUtil.startLaunching(context);
         EventBusUtil.updateBackground(false);
+        if (!GADProvider().isPresentingInterstitialAD) {
+          ProviderUtil.startLaunching(context);
+        }
       case AppLifecycleState.inactive:
-        EventBusUtil.updateLaunched(false);
         EventBusUtil.updateBackground(true);
+        if (!GADProvider().isPresentingInterstitialAD) {
+          EventBusUtil.updateLaunched(false);
+        }
         debugPrint("inActive");
       case AppLifecycleState.detached:
         debugPrint("detached");

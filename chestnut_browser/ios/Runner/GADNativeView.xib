@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MoE-eD-0ma" userLabel="GADNativeView" customClass="GADNativeView" customModule="Runner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="328" height="76"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ad_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ikF-3w-eZ7">
+                    <rect key="frame" x="0.0" y="0.0" width="328" height="76"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R8r-rB-REJ">
+                    <rect key="frame" x="12" y="16" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="R8r-rB-REJ" secondAttribute="height" multiplier="1:1" id="u1A-TM-3Hy"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlB-fR-pFJ">
+                    <rect key="frame" x="64" y="21" width="116" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ad_tag" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-5l-NFK">
+                    <rect key="frame" x="200" y="22.666666666666668" width="24" height="14.000000000000004"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="Lf1-VH-Zsv"/>
+                        <constraint firstAttribute="height" constant="14" id="aFC-mD-c6b"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pf3-Aj-27Y">
+                    <rect key="frame" x="64" y="41.666666666666664" width="160" height="13.333333333333336"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.45098039220000002" green="0.4823529412" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZA-ph-0EP">
+                    <rect key="frame" x="244" y="18" width="72" height="40"/>
+                    <color key="backgroundColor" red="0.098039215686274508" green="0.73725490196078436" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Nv6-O3-A8t"/>
+                        <constraint firstAttribute="width" constant="72" id="SD1-lR-efo"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="LWo-Uf-ljd"/>
+            <color key="backgroundColor" red="1" green="0.90196078430000004" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="LWo-Uf-ljd" firstAttribute="bottom" secondItem="R8r-rB-REJ" secondAttribute="bottom" constant="16" id="0oR-g1-sFQ"/>
+                <constraint firstItem="hZA-ph-0EP" firstAttribute="leading" secondItem="pf3-Aj-27Y" secondAttribute="trailing" constant="20" id="44t-f3-k5W"/>
+                <constraint firstItem="R8r-rB-REJ" firstAttribute="top" secondItem="MoE-eD-0ma" secondAttribute="top" constant="16" id="63d-wb-681"/>
+                <constraint firstItem="hZA-ph-0EP" firstAttribute="leading" secondItem="T6g-5l-NFK" secondAttribute="trailing" constant="20" id="93b-CQ-NVH"/>
+                <constraint firstItem="dlB-fR-pFJ" firstAttribute="leading" secondItem="R8r-rB-REJ" secondAttribute="trailing" constant="8" id="AeU-mk-2Lo"/>
+                <constraint firstAttribute="bottom" secondItem="ikF-3w-eZ7" secondAttribute="bottom" id="E64-ra-fXY"/>
+                <constraint firstItem="hZA-ph-0EP" firstAttribute="centerY" secondItem="MoE-eD-0ma" secondAttribute="centerY" id="FYC-XC-71g"/>
+                <constraint firstItem="ikF-3w-eZ7" firstAttribute="top" secondItem="MoE-eD-0ma" secondAttribute="top" id="Jf4-ra-Fjb"/>
+                <constraint firstAttribute="trailing" secondItem="hZA-ph-0EP" secondAttribute="trailing" constant="12" id="KGs-hS-L7U"/>
+                <constraint firstItem="T6g-5l-NFK" firstAttribute="leading" secondItem="dlB-fR-pFJ" secondAttribute="trailing" constant="20" id="NQC-HQ-HWK"/>
+                <constraint firstAttribute="trailing" secondItem="ikF-3w-eZ7" secondAttribute="trailing" id="YRV-f5-QkB"/>
+                <constraint firstItem="R8r-rB-REJ" firstAttribute="leading" secondItem="MoE-eD-0ma" secondAttribute="leading" constant="12" id="aOF-vV-emA"/>
+                <constraint firstItem="dlB-fR-pFJ" firstAttribute="top" secondItem="R8r-rB-REJ" secondAttribute="top" constant="5" id="aus-FR-SiD"/>
+                <constraint firstItem="pf3-Aj-27Y" firstAttribute="leading" secondItem="dlB-fR-pFJ" secondAttribute="leading" id="dzk-rI-4mu"/>
+                <constraint firstItem="pf3-Aj-27Y" firstAttribute="bottom" secondItem="R8r-rB-REJ" secondAttribute="bottom" constant="-5" id="mBt-8q-IUX"/>
+                <constraint firstAttribute="width" constant="328" id="mqE-pO-UXf"/>
+                <constraint firstItem="ikF-3w-eZ7" firstAttribute="leading" secondItem="MoE-eD-0ma" secondAttribute="leading" id="syB-Bv-9th"/>
+                <constraint firstItem="T6g-5l-NFK" firstAttribute="centerY" secondItem="dlB-fR-pFJ" secondAttribute="centerY" id="xxg-7t-IN6"/>
+                <constraint firstAttribute="height" constant="76" id="zqX-Xt-Q01"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="8"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="adTag" destination="T6g-5l-NFK" id="U0K-a0-C82"/>
+                <outlet property="heightConstraint" destination="zqX-Xt-Q01" id="J4c-ue-13z"/>
+                <outlet property="icon" destination="R8r-rB-REJ" id="yUJ-Q8-U7F"/>
+                <outlet property="install" destination="hZA-ph-0EP" id="3Jl-26-2Js"/>
+                <outlet property="placeholder" destination="ikF-3w-eZ7" id="2dW-wE-oKK"/>
+                <outlet property="subTitle" destination="pf3-Aj-27Y" id="gpj-gu-vD3"/>
+                <outlet property="title" destination="dlB-fR-pFJ" id="Y23-JB-yme"/>
+                <outlet property="weightConstraint" destination="mqE-pO-UXf" id="lfZ-Yd-d9L"/>
+            </connections>
+            <point key="canvasLocation" x="-1156.4885496183206" y="-795.4225352112677"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ad_placeholder" width="328" height="76"/>
+        <image name="ad_tag" width="20" height="12"/>
+    </resources>
+</document>

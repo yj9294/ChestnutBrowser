@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:chestnut_browser/event/event_bus_util.dart';
+import 'package:chestnut_browser/gad/gad_position.dart';
+import 'package:chestnut_browser/provider/gad_provider.dart';
 import 'package:flutter/cupertino.dart';
 
 class LaunchProvider extends ChangeNotifier {
@@ -19,7 +21,7 @@ class LaunchProvider extends ChangeNotifier {
   }
 
   void startLaunching() {
-    const duration = 2.4;
+    var duration = 12.4;
     progress = 0.0;
     timer?.cancel();
     timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
@@ -27,10 +29,18 @@ class LaunchProvider extends ChangeNotifier {
       updateProgress(progress);
       if (progress >= 1.0) {
         timer.cancel();
-        EventBusUtil.updateLaunched(true);
+        GADProvider().show(GADPosition.interstitial, closeHandler: () {
+          EventBusUtil.updateLaunched(true);
+        });
+      }
+
+      if (GADProvider().isLoadedInterstitialAD() && progress > 0.29) {
+        duration = 0.5;
       }
     });
 
+    GADProvider().load(GADPosition.native);
+    GADProvider().load(GADPosition.interstitial);
   }
 
   void stopLaunching() {

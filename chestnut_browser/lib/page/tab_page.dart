@@ -1,20 +1,50 @@
+import 'dart:async';
+
 import 'package:chestnut_browser/Util/colors_util.dart';
 import 'package:chestnut_browser/component/background.dart';
+import 'package:chestnut_browser/event/event_bus_util.dart';
+import 'package:chestnut_browser/gad/gad_model.dart';
+import 'package:chestnut_browser/gad/gad_position.dart';
 import 'package:chestnut_browser/page/base_page_state.dart';
+import 'package:chestnut_browser/provider/gad_provider.dart';
 import 'package:chestnut_browser/provider/home_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+typedef BackHandler = void Function();
+
 class TabPage extends StatefulWidget {
-  const TabPage({super.key});
+
+  BackHandler? handler;
+  TabPage({super.key, this.handler});
+
   @override
-  State<StatefulWidget> createState() => _TabState();
+  State<StatefulWidget> createState() => _TabState(handler: handler);
 }
 
 class _TabState extends BasePageState {
+  BackHandler? handler;
+  StreamSubscription? _subscription;
+  StreamSubscription? _foregroundSubscription;
+  _TabState({this.handler});
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshGAD();
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    _foregroundSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -22,7 +52,12 @@ class _TabState extends BasePageState {
         padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [ Flexible(child: _buildCenterView()), _buildFooterView()],
+          children: [
+            Flexible(child: _buildCenterView()),
+            Column(
+              children: [_buildGADView(), _buildFooterView()],
+            ),
+          ],
         ),
       ),
     );
@@ -38,13 +73,25 @@ class _TabState extends BasePageState {
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               childAspectRatio: 158 / 204,
-              children:
-                  List<Widget>.from(provider.items.map((e) => _TabItem(
-                        e,
-                        select: selected,
-                        delete: delete,
-                      ))),
+              children: List<Widget>.from(provider.items.map((e) => _TabItem(
+                    e,
+                    select: selected,
+                    delete: delete,
+                  ))),
             ));
+  }
+
+  @swidget
+  Widget _buildGADView() {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width - 32,
+      height: (MediaQuery.sizeOf(context).width - 32) * 78 / 328,
+      child: Consumer<GADProvider>(
+        builder: (context, provider, child) => (provider.nativeModel != null)
+            ? AdWidget(ad: provider.nativeModel!.ad!)
+            : const Center(),
+      ),
+    );
   }
 
   @swidget
@@ -172,7 +219,43 @@ class _TabItemState extends State<_TabItem> {
 }
 
 extension _TabStateExt on _TabState {
+  void _refreshGAD() {
+    _adObserver();
+    GADProvider().load(GADPosition.native);
+  }
+
+  bool _isNeedShowNative() {
+    return DateTime.now()
+            .difference(GADProvider().tabImpressionDate)
+            .inSeconds >
+        10;
+  }
+
+  void _adObserver() {
+    _subscription?.cancel();
+    _subscription = EventBusUtil.listenNativeModel((model) {
+      GADProvider().show(GADPosition.native);
+      if (!_isNeedShowNative() || GADProvider().nativeModel == model) {
+        debugPrint("[AD] tab 原生广告10s展示间隔 或 预加载的数据");
+        return;
+      }
+      debugPrint("[AD] tab当前显示的tab广告ID${model?.ad?.responseInfo?.responseId}");
+      GADProvider().tabImpressionDate = DateTime.now();
+      GADProvider().updateNativeAD(model);
+    });
+
+    _foregroundSubscription = EventBusUtil.listenIsBackground((event) {
+      Navigator.pop(context);
+    });
+  }
+
   void goBack() {
+    if (handler != null) {
+      handler!();
+    }
+    _subscription?.cancel();
+    GADProvider().disAppear(GADPosition.native);
+    GADProvider().updateNativeAD(null);
     Navigator.pop(context);
   }
 
@@ -182,11 +265,11 @@ extension _TabStateExt on _TabState {
 
   void selected(BrowserItem item) {
     HomeProvider().selected(item);
-    Navigator.pop(context);
+    goBack();
   }
 
   void add() {
     HomeProvider().addItems();
-    Navigator.pop(context);
+    goBack();
   }
 }

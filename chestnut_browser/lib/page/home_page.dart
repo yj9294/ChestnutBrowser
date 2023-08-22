@@ -1,19 +1,27 @@
+import 'dart:async';
+
 import 'package:chestnut_browser/Util/colors_util.dart';
 import 'package:chestnut_browser/Util/ext.dart';
 import 'package:chestnut_browser/component/background.dart';
+import 'package:chestnut_browser/event/event_bus_util.dart';
+import 'package:chestnut_browser/gad/gad_model.dart';
+import 'package:chestnut_browser/gad/gad_position.dart';
 import 'package:chestnut_browser/page/base_page_state.dart';
 import 'package:chestnut_browser/page/clean_alert.dart';
 import 'package:chestnut_browser/page/setting_page.dart';
 import 'package:chestnut_browser/page/tab_page.dart';
+import 'package:chestnut_browser/provider/gad_provider.dart';
 import 'package:chestnut_browser/provider/home_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
@@ -21,6 +29,8 @@ class HomePage extends StatefulWidget {
 class _HomeState extends BasePageState {
   TextEditingController? textEditingController;
   WebViewController? webViewController;
+  StreamSubscription? _streamSubscription;
+  bool willAppear = true;
 
   @override
   void initState() {
@@ -30,12 +40,14 @@ class _HomeState extends BasePageState {
       textEditingController?.text = HomeProvider().searchText;
     });
     refreshWebView();
+    _refreshAD();
   }
 
   @override
   void dispose() {
     textEditingController = null;
     webViewController = null;
+    _dismissAD();
     super.dispose();
   }
 
@@ -44,12 +56,15 @@ class _HomeState extends BasePageState {
     super.didPopNext();
     refreshWebView();
     refreshSearchView();
+    _refreshAD();
+    GADProvider().load(GADPosition.interstitial);
   }
 
   @override
   void didPushNext() {
     super.didPushNext();
     disposeState();
+    _dismissAD();
   }
 
   @override
@@ -123,19 +138,34 @@ class _HomeState extends BasePageState {
     return Flexible(
         child: Consumer<HomeProvider>(builder: (context, provider, child) {
       return provider.isNavigation
-          ? Column(
-              children: [
-                GridView.count(
-                  crossAxisCount: 4,
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  childAspectRatio: 90.0 / 87.0,
-                  children: List<Widget>.from(
-                      HomeItemType.values.map((e) => _buildHomeItem(e))),
-                ),
-                const Center(),
-              ],
-            )
+          ? Consumer<GADProvider>(builder: (context, gadProvider, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GridView.count(
+                    crossAxisCount: 4,
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    childAspectRatio: 90.0 / 87.0,
+                    children: List<Widget>.from(
+                        HomeItemType.values.map((e) => _buildHomeItem(e))),
+                  ),
+                  const Center(),
+                  willAppear
+                      ? SizedBox(
+                          width: MediaQuery.sizeOf(context).width - 32,
+                          height: (MediaQuery.sizeOf(context).width - 32) *
+                              78 /
+                              328,
+                          child: (gadProvider.nativeModel != null &&
+                                  gadProvider.nativeModel?.ad != null)
+                              ? AdWidget(ad: gadProvider.nativeModel!.ad!)
+                              : const Center(),
+                        )
+                      : const Center()
+                ],
+              );
+            })
           : WebViewWidget(controller: webViewController!);
     }));
   }
@@ -204,6 +234,42 @@ class _HomeState extends BasePageState {
 }
 
 extension _HomePageExt on _HomeState {
+  bool isNeedShowNative() {
+    return DateTime.now()
+            .difference(GADProvider().homeImpressionDate)
+            .inSeconds >
+        10;
+  }
+
+  void _refreshAD() async {
+    _adObserver();
+    GADProvider().load(GADPosition.native);
+  }
+
+  void _adObserver() {
+    _streamSubscription?.cancel();
+    _streamSubscription = EventBusUtil.listenNativeModel((model) {
+      GADProvider().show(GADPosition.native);
+      if (model == null) {
+        GADProvider().updateNativeAD(model);
+        return;
+      }
+      if (!isNeedShowNative() || GADProvider().nativeModel == model) {
+        debugPrint("[AD] home 原生广告10s展示间隔 或 预加载的数据");
+        return;
+      }
+      debugPrint("[AD] 当前显示的home广告ID${model?.ad?.responseInfo?.responseId}");
+      GADProvider().homeImpressionDate = DateTime.now();
+      GADProvider().updateNativeAD(model);
+    });
+  }
+
+  void _dismissAD() {
+    _streamSubscription?.cancel();
+    GADProvider().disAppear(GADPosition.native);
+    EventBusUtil.updateNativeAD(null);
+  }
+
   void refreshWebView() {
     final homeProvider = HomeProvider();
     webViewController = homeProvider.controller;
@@ -233,7 +299,7 @@ extension _HomePageExt on _HomeState {
     });
   }
 
-  void refreshSearchView () {
+  void refreshSearchView() {
     final homeProvider = HomeProvider();
     homeProvider.updateSearchText("");
     homeProvider.updateIsLoading(false);
@@ -296,12 +362,22 @@ extension _HomePageExt on _HomeState {
       case TabBarItem.forward:
         webViewController?.goForward();
       case TabBarItem.clean:
-        Navigator.push(context, TransformPageRoute((context) => CleanAlertPage()));
-      case TabBarItem.tab:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const TabPage()));
+            context, TransformPageRoute((context) => const CleanAlertPage()));
+      case TabBarItem.tab:
+        setState(() {
+          willAppear = false;
+        });
+        _dismissAD();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TabPage(
+                      handler: () => willAppear = true,
+                    )));
       case TabBarItem.setting:
-        Navigator.push(context, TransformPageRoute((context) => SettingPage()));
+        Navigator.push(
+            context, TransformPageRoute((context) => const SettingPage()));
     }
   }
 }

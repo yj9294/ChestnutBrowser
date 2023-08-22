@@ -35,6 +35,8 @@ dependencies:
   event_bus:
   launch_review:
   webview_flutter:
+  google_mobile_ads:
+  shared_preferences:
   flutter_facebook_sdk:
   app_tracking_transparency:
   functional_widget_annotation:
@@ -96,6 +98,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
+    - assets/data/config.json
     - assets/images/
     - assets/images/2.0x/
     - assets/images/3.0x/

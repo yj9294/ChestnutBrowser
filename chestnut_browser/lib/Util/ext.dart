@@ -9,7 +9,17 @@ extension StringExtension on String {
     RegExp exp = RegExp('[a-zA-z]+://.*');
     return exp.hasMatch(this);
   }
+}
 
+extension DateTimeExt on DateTime {
+  bool isExpired() {
+    var difference = DateTime.now().difference(this);
+    return difference.inSeconds > 3000;
+  }
+
+  bool isToday() {
+    return day == DateTime.now().day;
+  }
 }
 
 enum HomeItemType {
@@ -46,12 +56,9 @@ extension HomeItemTypeExtension on HomeItemType {
   }
 }
 
-enum TabBarItem {
-  back, forward, clean, tab, setting
-}
+enum TabBarItem { back, forward, clean, tab, setting }
 
 extension TabBarItemExt on TabBarItem {
-
   String get displayImage {
     return 'assets/images/${describeEnum(this)}.png';
   }
@@ -67,7 +74,6 @@ extension TabBarItemExt on TabBarItem {
     return description.substring(indexOfDot + 1);
   }
 }
-
 
 enum SettingItem { add, share, copy, rate, terms, privacy }
 
