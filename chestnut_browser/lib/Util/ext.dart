@@ -121,26 +121,50 @@ extension WebItemExt on WebItem {
     switch (this) {
       case WebItem.privacy:
         return """
-        The following terms and conditions (the “Terms”) govern your use of the VPN services we provide (the “Service”) and their associated website domains (the “Site”). These Terms constitute a legally binding agreement (the “Agreement”) between you and Tap VPN. (the “Tap VPN”).
+When you use this browser to search for information, access websites, and share information with others, such as typing keywords through the browser and viewing relevant information on the internet, we will collect information from you in order to provide you with corresponding services and a better user experience. When participating in the browser user experience improvement program, your usage, statistical information, certain information entered while using the browser and explorer, and crash reports will be collected as appropriate.
+Here, we explain the information we collect, why we collect it, and how we will use it:
+Information Collection and Use
+We collect information to improve our application and provide better services to all users, including:
+1. The information you provided us. For example, when you provide us with your feedback on our applications and services through our feedback channels;
+2. We have obtained information from your use of our applications and services. For example, the search keywords you enter in our application, the website links you enter, click on, and interact with;
+3. Log information, application events. For example, version, installation date and time, usage statistics, crash events, and application dump reports;
+4. Location information;
+5. Equipment information. For example, hardware model, operating system version, etc.
+How we share information
+We will not sell, trade, or otherwise transfer your personally identifiable information to the outside world. This does not include:
+1. Trusted third parties who assist us in operating our website, conducting business, or providing services to you, as long as these third parties agree to keep this information confidential;
+2. We will access, use, or disclose your information in conjunction with other organizations or entities for any applicable laws, regulations, legal procedures, or enforceable government requirements;
+3. Government requirements.
+We will protect the rights, property, and safety of our users or the public from harm, as required or permitted by law.
+Update 
+We may update our privacy policy from time to time, and we suggest that you regularly review this privacy policy to understand any changes made.
+Contact us
+If you have any questions about this policy, you can contact our support team via the email below.
+123Brycee@gmail.com
 
-Activation of your account constitutes your agreement to be bound by the Terms and a representation that you are at least eighteen (18) years of age, and that the registration information you have provided is accurate and complete.
-
-Tap VPN may update the Terms from time to time without notice. Any changes in the Terms will be incorporated into a revised Agreement that we will post on the Site. Unless otherwise specified, such changes shall be effective when they are posted. If we make material changes to these Terms, we will aim to notify you via email or when you log in at our Site.
-
-By using Tap VPN
-You agree to comply with all applicable laws and regulations in connection with your use of this service.regulations in connection with your use of this service.
- """;
+Terms of Use
+Please read these usage terms in detail.
+Use of the application
+You acknowledge that you may not use this application for illegal purposes;
+You agree that we can stop the service at any time without prior notice to you;
+You accept the use of our application according to these terms. If you refuse these terms, please do not use our services.
+Update
+We may update our terms of use from time to time, and we suggest that you regularly check if there have been any changes to these terms of use.
+Contact us
+If you have any questions about these Terms of Use, please contact us：123Brycee@gmail.com
+""";
       case WebItem.terms:
         return """
-        The following terms and conditions (the “Terms”) govern your use of the VPN services we provide (the “Service”) and their associated website domains (the “Site”). These Terms constitute a legally binding agreement (the “Agreement”) between you and Tap VPN. (the “Tap VPN”).
-
-Activation of your account constitutes your agreement to be bound by the Terms and a representation that you are at least eighteen (18) years of age, and that the registration information you have provided is accurate and complete.
-
-Tap VPN may update the Terms from time to time without notice. Any changes in the Terms will be incorporated into a revised Agreement that we will post on the Site. Unless otherwise specified, such changes shall be effective when they are posted. If we make material changes to these Terms, we will aim to notify you via email or when you log in at our Site.
-
-By using Tap VPN
-You agree to comply with all applicable laws and regulations in connection with your use of this service.regulations in connection with your use of this service.
-        """;
+Please read these usage terms in detail.
+Use of the application
+You acknowledge that you may not use this application for illegal purposes;
+You agree that we can stop the service at any time without prior notice to you;
+You accept the use of our application according to these terms. If you refuse these terms, please do not use our services.
+Update
+We may update our terms of use from time to time, and we suggest that you regularly check if there have been any changes to these terms of use.
+Contact us
+If you have any questions about these Terms of Use, please contact us：123Brycee@gmail.com
+""";
     }
   }
 }

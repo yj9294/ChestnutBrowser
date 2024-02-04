@@ -115,12 +115,12 @@ class _SettingState extends BasePageState {
         HomeProvider().controller.currentUrl().then((value) {
           if (value != null) {
             if (value.isEmpty == true) {
-              Share.share("https://itunes.apple.com/cn/app/id}");
+              Share.share("https://itunes.apple.com/cn/app/id6467619926}");
             } else {
               Share.share(value);
             }
           } else {
-            Share.share("https://itunes.apple.com/cn/app/id}");
+            Share.share("https://itunes.apple.com/cn/app/id6467619926}");
           }
         });
       case SettingItem.copy:
